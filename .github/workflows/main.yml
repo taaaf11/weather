@@ -25,33 +25,6 @@ jobs:
           # Download the generated APK file
           ARTIFACT_NAME="app-release.apk"  # Adjust based on actual filename
           curl -L https://github.com/${{ github.repository }}/actions/artifacts/${{ github.sha }}/downloads/${ARTIFACT_NAME} -o $ARTIFACT_NAME
-name: Flutter CI/CD
 
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.2'
-
-      - run: flutter pub get
-
-      - run: flutter test
-
-      - run: flutter build apk
-
-      - run: |
-          # Download the generated APK file
-          ARTIFACT_NAME="app-release.apk"  # Adjust based on actual filename
-          curl -L https://github.com/${{ github.repository }}/actions/artifacts/${{ github.sha }}/downloads/${ARTIFACT_NAME} -o $ARTIFACT_NAME
-
-outputs:
-apk-file: ${{ path.basename($ARTIFACT_NAME) }}  # Optional output for downloaded APK
+    outputs:
+      apk-file: ${{ path.basename($ARTIFACT_NAME) }}  # Optional output for downloaded APK
