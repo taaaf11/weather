@@ -27,4 +27,4 @@ jobs:
           curl -L https://github.com/${{ github.repository }}/actions/artifacts/${{ github.sha }}/downloads/${ARTIFACT_NAME} -o $ARTIFACT_NAME
 
     outputs:
-      apk-file: ${{ path.basename($ARTIFACT_NAME) }}  # Optional output for downloaded APK
+      apk-file: ${{ basename($ARTIFACT_NAME) }}  # Optional output for downloaded APK
