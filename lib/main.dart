@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:weather/weatherpage.dart';
-import 'package:weather/settingspage.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/settingspage.dart';
 import 'package:weather/utils.dart';
+import 'package:weather/weatherpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
