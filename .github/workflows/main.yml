@@ -1,8 +1,22 @@
-steps:
-- uses: actions/checkout@v4
-- uses: subosito/flutter-action@v2
-  with:
-    flutter-version: '3.19.2'
-- run: flutter pub get
-- run: flutter test
-- run: flutter build apk
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.2'
+
+      - run: flutter pub get
+
+      - run: flutter test
+
+      - run: flutter build apk
