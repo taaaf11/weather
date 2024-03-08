@@ -14,32 +14,57 @@ void main() async {
   String? city = prefs.getString('city');
   String? apiKey = prefs.getString('apiKey');
 
+  Brightness themeMode =
+      stringToThemeMode(prefs.getString('theme_mode') ?? 'dark');
+  int colorSchemeSeed = prefs.getInt('colorSchemeSeed') ?? 0xff01666f;
+
   Map<String, dynamic>? owmResp =
       await fetchWeatherOWM(city: city, apiKey: apiKey);
 
-  runApp(MyApp(apiKey: apiKey, owmResp: owmResp));
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<OwmProvider>(
+            create: (context) => OwmProvider(apiKey: apiKey, owmResp: owmResp)),
+        ChangeNotifierProvider<ThemeProvider>(
+            create: (context) => ThemeProvider(
+                themeMode: themeMode, colorSchemeSeed: colorSchemeSeed))
+      ],
+      child: MyApp(
+        apiKey: apiKey,
+        owmResp: owmResp,
+        themeMode: themeMode,
+        colorSchemeSeed: colorSchemeSeed,
+      )));
 }
 
 class MyApp extends StatelessWidget {
   final Map<String, dynamic>? owmResp;
   final String? apiKey;
+  Brightness themeMode;
+  int colorSchemeSeed;
 
-  MyApp({super.key, required this.apiKey, required this.owmResp});
+  MyApp(
+      {super.key,
+      required this.apiKey,
+      required this.owmResp,
+      required this.themeMode,
+      required this.colorSchemeSeed});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => OwmProvider(apiKey: apiKey, owmResp: owmResp),
-        child: MaterialApp(
-          title: 'Weather',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.deepOrange, brightness: Brightness.dark),
-            fontFamily: 'Comfortaa',
-            useMaterial3: true,
-          ),
-          home: MyHomePage(title: 'Weather', apiKey: apiKey, owmResp: owmResp),
-        ));
+    var themeState = Provider.of<ThemeProvider>(context);
+
+    return MaterialApp(
+      title: 'Weather',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Color(themeState.curColorSchemeSeed),
+            brightness: themeState.curThemeMode),
+        fontFamily: 'Comfortaa',
+        useMaterial3: true,
+      ),
+      home: MyHomePage(title: 'Weather', apiKey: apiKey, owmResp: owmResp),
+    );
   }
 }
 
@@ -100,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage>
                     onPressed: () {
                       state.update(_animationController);
                     },
-                    icon: Icon(Icons.sync)))
+                    icon: Icon(Icons.sync),
+                    color: (selectedPage == 0)
+                        ? Theme.of(context).iconTheme.color
+                        : Colors.transparent))
           ],
         ),
         drawer: NavigationDrawer(
