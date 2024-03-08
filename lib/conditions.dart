@@ -106,14 +106,6 @@ class _Temperature extends State<Temperature> {
             padding: EdgeInsets.all(10),
             child: Row(children: [
               Text(_temp.toStringAsFixed(0), style: TextStyle(fontSize: 35)),
-              // The max and min temperatures
-              //
-              // Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              //   Text(_tempMin.toString(), style: TextStyle(fontSize: 13, color: Colors.grey)),
-              //   SizedBox(height: 5),
-              //   Text(_tempMax.toString(), style: TextStyle(fontSize: 13, color: Colors.grey))
-              // ])
-              //
             ])),
         TextButton(
             onPressed: _switchTempUnit,
