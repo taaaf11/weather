@@ -6,6 +6,6 @@ class TimeBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(formattedTime(DateTime.now().millisecondsSinceEpoch / 1000), style: TextStyle(fontSize: 16));
+    return Text(formattedTime(DateTime.now().millisecondsSinceEpoch ~/ 1000), style: TextStyle(fontSize: 16));
   }
 }

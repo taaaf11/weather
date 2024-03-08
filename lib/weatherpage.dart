@@ -45,7 +45,9 @@ class _WeatherPage extends State<WeatherPage> {
                     Expanded(child: Humidity(owmResp: state.owmResp!))
                   ]),
               SizedBox(height: 30),
-              Text('Last updated: ${formattedTime(state.owmResp!['dt'])}', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey))
+              Text('Last updated:\n${formattedTime(state.owmResp!['dt'])}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey, height: 1.8))
             ],
           ));
     }
