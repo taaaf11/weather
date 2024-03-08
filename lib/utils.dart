@@ -18,7 +18,6 @@ Future<Map<String, dynamic>?> fetchWeatherOWM(
   return jsonDecode(response.body);
 }
 
-
 Future<void> delAppData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var keys = prefs.getKeys();

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/settingspage.dart';
 import 'package:weather/utils.dart';
 import 'package:weather/weatherpage.dart';
+
 import 'notifiers.dart';
 
 void main() async {
