@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/date.dart';
 import 'package:weather/conditions.dart';
+import 'package:weather/date.dart';
+import 'package:weather/notifiers.dart';
 import 'package:weather/utils.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _WeatherPage extends State<WeatherPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TimeBar(owmResp: state.owmResp!),
+              TimeBar(),
               Temperature(owmResp: state.owmResp!),
               SizedBox(height: 30),
               Row(
@@ -43,6 +44,8 @@ class _WeatherPage extends State<WeatherPage> {
                     Expanded(child: WindSpeed(owmResp: state.owmResp!)),
                     Expanded(child: Humidity(owmResp: state.owmResp!))
                   ]),
+              SizedBox(height: 30),
+              Text('Last updated: ${formattedTime(state.owmResp!['dt'])}', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey))
             ],
           ));
     }
