@@ -62,9 +62,9 @@ class _SettingsPage extends State<SettingsPage> {
     var themeState = Provider.of<ThemeProvider>(context);
 
     return Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
           SizedBox(
             width: width / 2,
             child: TextField(
@@ -77,13 +77,15 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           SizedBox(height: 10),
           SizedBox(
-              width: width / 2,
-              child: TextField(
-                  controller: _textControllerApiKey,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(hintText: 'OWM Api Key'),
-                  style: TextStyle(fontSize: 18),
-                  onSubmitted: (data) => saveApiKey(data))),
+            width: width / 2,
+            child: TextField(
+              controller: _textControllerApiKey,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(hintText: 'OWM Api Key'),
+              style: TextStyle(fontSize: 18),
+              onSubmitted: (data) => saveApiKey(data),
+            ),
+          ),
           SizedBox(height: 60),
           ElevatedButton.icon(
             icon: Icon((themeState.curThemeMode == Brightness.dark)
@@ -96,35 +98,22 @@ class _SettingsPage extends State<SettingsPage> {
               setState(() {
                 themeState.switchThemeMode();
                 saveThemeMode(themeState.curThemeMode);
-                // prefs!.setString('theme_mode', themeModetoString(themeState.curThemeMode));
               });
             },
           ),
           SizedBox(height: 10),
           SizedBox(
-              width: width / 1.5,
-              child: Tooltip(
-                  message: 'color scheme eg #16666f',
-                  child: TextField(
-                    controller: _textControllerColorSchemeSeed,
-                    textAlign: TextAlign.center,
-                    decoration:
-                        InputDecoration(hintText: 'color scheme eg #16666f'),
-                    // onChanged: (value) => {
-                    //   setState(() {
-                    //     // if the color hex format is not correct
-                    //     // correct format: #rrggbb
-                    //     if (value.length < 7 || value.length > 7) {
-                    //       return;
-                    //     }
-                    //
-                    //     // in format 0x ...
-                    //     var usableColor =
-                    //         int.parse('0xff${value.substring(1)}');
-                    //     saveColorSchemeSeed(usableColor);
-                    //   }),
-                    // },
-                  ))),
+            width: width / 1.5,
+            child: Tooltip(
+              message: 'color scheme eg #16666f',
+              child: TextField(
+                controller: _textControllerColorSchemeSeed,
+                textAlign: TextAlign.center,
+                decoration:
+                    InputDecoration(hintText: 'color scheme eg #16666f'),
+              ),
+            ),
+          ),
           SizedBox(height: 10),
           IconButton(
             icon: Icon(Icons.check),
@@ -153,6 +142,8 @@ class _SettingsPage extends State<SettingsPage> {
               await delAppData();
             },
           )
-        ]));
+        ],
+      ),
+    );
   }
 }

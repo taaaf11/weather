@@ -39,9 +39,10 @@ void main() async {
       )));
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  final Map<String, dynamic>? owmResp;
-  final String? apiKey;
+  Map<String, dynamic>? owmResp;
+  String? apiKey;
   Brightness themeMode;
   int colorSchemeSeed;
 
@@ -121,16 +122,18 @@ class _MyHomePageState extends State<MyHomePage>
           centerTitle: true,
           actions: [
             RotationTransition(
-                turns:
-                    Tween(begin: 0.0, end: -1.0).animate(_animationController),
+              turns: Tween(begin: 0.0, end: -1.0).animate(_animationController),
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 250),
+                opacity: (selectedPage == 0) ? 1 : 0,
                 child: IconButton(
-                    onPressed: () {
-                      state.update(_animationController);
-                    },
-                    icon: Icon(Icons.sync),
-                    color: (selectedPage == 0)
-                        ? Theme.of(context).iconTheme.color
-                        : Colors.transparent))
+                  onPressed: () {
+                    state.update(_animationController);
+                  },
+                  icon: Icon(Icons.sync),
+                ),
+              ),
+            )
           ],
         ),
         drawer: NavigationDrawer(

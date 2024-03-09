@@ -31,7 +31,7 @@ String formattedTime(secondsSinceEpoch) {
       .format(DateTime.fromMillisecondsSinceEpoch(secondsSinceEpoch * 1000));
 }
 
-int hexColorStringtoInt(String hex) {
+int hexColorStringToInt(String hex) {
   if (!(hex.length < 7)) {
     // in format 0x ...
     return int.parse('0xff${hex.substring(1)}');

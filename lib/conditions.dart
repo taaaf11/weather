@@ -27,7 +27,7 @@ class WindSpeed extends StatefulWidget {
 }
 
 class _WindSpeed extends State<WindSpeed> {
-  late double _speed = widget.owmResp['wind']['speed'];
+  late num _speed = widget.owmResp['wind']['speed'];
   String unit = 'm/s';
 
   void _switchSpeedUnit() {
@@ -71,9 +71,9 @@ class Temperature extends StatefulWidget {
 }
 
 class _Temperature extends State<Temperature> {
-  late double _temp = widget.owmResp['main']['temp'];
-  late double _tempMin = widget.owmResp['main']['temp_min'];
-  late double _tempMax = widget.owmResp['main']['temp_max'];
+  late num _temp = widget.owmResp['main']['temp'];
+  late num _tempMin = widget.owmResp['main']['temp_min'];
+  late num _tempMax = widget.owmResp['main']['temp_max'];
 
   String unit = 'C';
 

@@ -30,26 +30,34 @@ class _WeatherPage extends State<WeatherPage> {
       return Center(child: Text('Invalid API key...'));
     } else {
       return ChangeNotifierProvider(
-          create: (context) =>
-              OwmProvider(apiKey: state.apiKey, owmResp: state.owmResp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TimeBar(),
-              Temperature(owmResp: state.owmResp!),
-              SizedBox(height: 30),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: WindSpeed(owmResp: state.owmResp!)),
-                    Expanded(child: Humidity(owmResp: state.owmResp!))
-                  ]),
-              SizedBox(height: 30),
-              Text('Last updated:\n${formattedTime(state.owmResp!['dt'])}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey, height: 1.8))
-            ],
-          ));
+        create: (context) =>
+            OwmProvider(apiKey: state.apiKey, owmResp: state.owmResp),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TimeBar(),
+            Temperature(owmResp: state.owmResp!),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: WindSpeed(owmResp: state.owmResp!),
+                ),
+                Expanded(
+                  child: Humidity(owmResp: state.owmResp!),
+                )
+              ],
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Last updated:\n${formattedTime(state.owmResp!['dt'])}',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey, height: 1.8),
+            )
+          ],
+        ),
+      );
     }
   }
 }
