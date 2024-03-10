@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/notifiers.dart';
 import 'package:weather/settingspage.dart';
 import 'package:weather/utils.dart';
 import 'package:weather/weatherpage.dart';
-
-import 'notifiers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,41 +15,42 @@ void main() async {
   String? city = prefs.getString('city');
   String? apiKey = prefs.getString('apiKey');
 
-  Brightness themeMode =
-      stringToThemeMode(prefs.getString('theme_mode') ?? 'dark');
+  bool isDarkThemeMode = prefs.getBool('is_dark_theme_mode') ?? true;
   int colorSchemeSeed = prefs.getInt('colorSchemeSeed') ?? 0xff01666f;
 
   Map<String, dynamic>? owmResp =
       await fetchWeatherOWM(city: city, apiKey: apiKey);
 
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider<OwmProvider>(
-            create: (context) => OwmProvider(apiKey: apiKey, owmResp: owmResp)),
+          create: (context) => OwmProvider(apiKey: apiKey, owmResp: owmResp),
+        ),
         ChangeNotifierProvider<ThemeProvider>(
-            create: (context) => ThemeProvider(
-                themeMode: themeMode, colorSchemeSeed: colorSchemeSeed))
+          create: (context) => ThemeProvider(
+              colorSchemeSeed: colorSchemeSeed, isDark: isDarkThemeMode),
+        ),
       ],
       child: MyApp(
         apiKey: apiKey,
         owmResp: owmResp,
-        themeMode: themeMode,
         colorSchemeSeed: colorSchemeSeed,
-      )));
+      ),
+    ),
+  );
 }
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   Map<String, dynamic>? owmResp;
   String? apiKey;
-  Brightness themeMode;
   int colorSchemeSeed;
 
   MyApp(
       {super.key,
       required this.apiKey,
       required this.owmResp,
-      required this.themeMode,
       required this.colorSchemeSeed});
 
   @override
@@ -62,7 +62,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: Color(themeState.curColorSchemeSeed),
-            brightness: themeState.curThemeMode),
+            brightness: (themeState.isDarkThemeMode)
+                ? Brightness.dark
+                : Brightness.light),
         fontFamily: 'Comfortaa',
         useMaterial3: true,
       ),
@@ -124,6 +126,7 @@ class _MyHomePageState extends State<MyHomePage>
           // when the user clicks on the button
           RotationTransition(
             turns: Tween(begin: 0.0, end: -1.0).animate(_animationController),
+            // when the page is changed, hide or show the refresh button
             child: AnimatedOpacity(
               duration: Duration(milliseconds: 250),
               opacity: (selectedPage == 0) ? 1 : 0,
@@ -146,9 +149,13 @@ class _MyHomePageState extends State<MyHomePage>
         ),
         children: [
           NavigationDrawerDestination(
-              icon: Icon(Icons.home), label: Text('Home')),
+            icon: Icon(Icons.home),
+            label: Text('Home'),
+          ),
           NavigationDrawerDestination(
-              icon: Icon(Icons.settings), label: Text('Settings'))
+            icon: Icon(Icons.settings),
+            label: Text('Settings'),
+          ),
         ],
       ),
       body: page,

@@ -24,20 +24,19 @@ class OwmProvider with ChangeNotifier {
 }
 
 class ThemeProvider with ChangeNotifier {
-  late Brightness _curThemeMode;
   late int _curColorSchemeSeed;
+  late bool _isDark;
 
-  Brightness themeMode;
   int colorSchemeSeed;
+  bool isDark;
 
-  ThemeProvider({required this.themeMode, required this.colorSchemeSeed}) {
-    _curThemeMode = themeMode;
+  ThemeProvider({required this.isDark, required this.colorSchemeSeed}) {
+    _isDark = isDark;
     _curColorSchemeSeed = colorSchemeSeed;
   }
 
   void switchThemeMode() {
-    _curThemeMode =
-        (_curThemeMode == Brightness.dark) ? Brightness.light : Brightness.dark;
+    _isDark = !_isDark;
     notifyListeners();
   }
 
@@ -46,11 +45,6 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void update() {
-    notifyListeners();
-  }
-
-  Brightness get curThemeMode => _curThemeMode;
-
+  bool get isDarkThemeMode => _isDark;
   int get curColorSchemeSeed => _curColorSchemeSeed;
 }

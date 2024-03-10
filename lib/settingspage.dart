@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'notifiers.dart';
-import 'utils.dart';
+import 'package:weather/notifiers.dart';
+import 'package:weather/utils.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({super.key});
@@ -52,8 +51,8 @@ class _SettingsPage extends State<SettingsPage> {
     prefs!.setInt('colorSchemeSeed', seed);
   }
 
-  void saveThemeMode(Brightness mode) {
-    prefs!.setString('theme_mode', themeModetoString(mode));
+  void saveThemeMode(bool isDark) {
+    prefs!.setBool('is_dark_theme_mode', isDark);
   }
 
   @override
@@ -88,16 +87,13 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           SizedBox(height: 60),
           ElevatedButton.icon(
-            icon: Icon((themeState.curThemeMode == Brightness.dark)
-                ? Icons.light_mode
-                : Icons.dark_mode),
-            label: Text((themeState.curThemeMode == Brightness.dark)
-                ? 'Light mode'
-                : 'Dark mode'),
+            icon: Icon(
+                (themeState.isDarkThemeMode) ? Icons.light_mode : Icons.dark_mode),
+            label: Text((themeState.isDarkThemeMode) ? 'Light mode' : 'Dark mode'),
             onPressed: () {
               setState(() {
                 themeState.switchThemeMode();
-                saveThemeMode(themeState.curThemeMode);
+                saveThemeMode(themeState.isDarkThemeMode);
               });
             },
           ),
@@ -130,10 +126,6 @@ class _SettingsPage extends State<SettingsPage> {
               saveColorSchemeSeed(usableColor);
             },
           ),
-          // Text(
-          //   '*Color scheme change takes effect \nonce you restart the app.',
-          //   textAlign: TextAlign.center,
-          // ),
           SizedBox(height: 30),
           ElevatedButton.icon(
             icon: Icon(Icons.delete),

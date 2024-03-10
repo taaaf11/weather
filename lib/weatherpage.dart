@@ -22,12 +22,15 @@ class _WeatherPage extends State<WeatherPage> {
 
     if (state.owmResp == null) {
       return Center(
-          child: Text(
-              'City/api key or both are not specified. Please add them in the Settings.'));
+        child: Text(
+            'City/api key or both are not specified. Please add them in the Settings.'),
+      );
     }
 
     if (state.owmResp!['cod'] != 200) {
-      return Center(child: Text('Invalid API key...'));
+      return Center(
+        child: Text('Invalid API key...'),
+      );
     } else {
       return ChangeNotifierProvider(
         create: (context) =>
