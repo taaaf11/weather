@@ -117,37 +117,41 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          centerTitle: true,
-          actions: [
-            RotationTransition(
-              turns: Tween(begin: 0.0, end: -1.0).animate(_animationController),
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: 250),
-                opacity: (selectedPage == 0) ? 1 : 0,
-                child: IconButton(
-                  onPressed: () {
-                    state.update(_animationController);
-                  },
-                  icon: Icon(Icons.sync),
-                ),
+      appBar: AppBar(
+        title: Text(widget.title),
+        centerTitle: true,
+        actions: [
+          // when the user clicks on the button
+          RotationTransition(
+            turns: Tween(begin: 0.0, end: -1.0).animate(_animationController),
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 250),
+              opacity: (selectedPage == 0) ? 1 : 0,
+              child: IconButton(
+                onPressed: () {
+                  state.update(_animationController);
+                },
+                icon: Icon(Icons.sync),
               ),
-            )
-          ],
-        ),
-        drawer: NavigationDrawer(
-          selectedIndex: selectedPage,
-          onDestinationSelected: (value) => setState(() {
+            ),
+          )
+        ],
+      ),
+      drawer: NavigationDrawer(
+        selectedIndex: selectedPage,
+        onDestinationSelected: (value) => setState(
+          () {
             selectedPage = value;
-          }),
-          children: [
-            NavigationDrawerDestination(
-                icon: Icon(Icons.home), label: Text('Home')),
-            NavigationDrawerDestination(
-                icon: Icon(Icons.settings), label: Text('Settings'))
-          ],
+          },
         ),
-        body: page);
+        children: [
+          NavigationDrawerDestination(
+              icon: Icon(Icons.home), label: Text('Home')),
+          NavigationDrawerDestination(
+              icon: Icon(Icons.settings), label: Text('Settings'))
+        ],
+      ),
+      body: page,
+    );
   }
 }
